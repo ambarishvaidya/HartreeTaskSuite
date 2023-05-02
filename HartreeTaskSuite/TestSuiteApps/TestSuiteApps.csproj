@@ -24,6 +24,7 @@
     <ProjectReference Include="..\Consumer\Consumer.csproj" />
     <ProjectReference Include="..\MessageConsumer\MessageConsumer.csproj" />
     <ProjectReference Include="..\MessagePublisher\MessagePublisher.csproj" />
+    <ProjectReference Include="..\MessageSink\MessageSink.csproj" />
     <ProjectReference Include="..\Producer\Producer.csproj" />
     <ProjectReference Include="..\TickData\TickData.csproj" />
   </ItemGroup>

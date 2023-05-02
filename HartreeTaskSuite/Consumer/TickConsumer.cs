@@ -1,6 +1,6 @@
 ﻿using MessageConsumer;
+using MessageSink;
 using System.Reflection;
-using TickData.Interfaces;
 
 namespace Consumer
 {
@@ -9,16 +9,19 @@ namespace Consumer
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private int _tickFrequency;
         private IMessageConsumer<T> _kafkaConsumer;
-
+        private IMessageSink<T> _messageSink;
         private CancellationTokenSource _cts;
         private System.Timers.Timer _timer;
         private AutoResetEvent _are;
 
-        public TickConsumer(int tickFrequency, IMessageConsumer<T> kafkaConsumer)
+        public TickConsumer(int tickFrequency, IMessageConsumer<T> kafkaConsumer, IMessageSink<T> messagesink)
         {
             _tickFrequency = tickFrequency;
             _kafkaConsumer = kafkaConsumer;
+            _messageSink = messagesink;
+
             Validated();
+
             _cts = new CancellationTokenSource();
         }
 
@@ -30,7 +33,7 @@ namespace Consumer
                 Log.Error(msg);
                 throw new ArgumentException(msg);
             }
-            if (_kafkaConsumer == null )
+            if (_kafkaConsumer == null)
             {
                 string msg = $"PROVIDE VALUES for IMessageConsumer. NULL not allowed.";
                 Log.Error(msg);
@@ -40,9 +43,10 @@ namespace Consumer
 
         public void Start()
         {
+            _messageSink.StartPersistingData(_cts);
             _are = new AutoResetEvent(false);
             ReadMessagesFromConsumer();
-            _timer = new System.Timers.Timer((_tickFrequency * 1000)/2);
+            _timer = new System.Timers.Timer((_tickFrequency * 1000) / 2);
             _timer.Elapsed += _timer_Elapsed;
             _kafkaConsumer.StartSubscription(_cts);
             _timer.Start();
@@ -50,6 +54,7 @@ namespace Consumer
 
         private void _timer_Elapsed(object? sender, System.Timers.ElapsedEventArgs e)
         {
+            //Log.Info("TickConsumer timer elapsed");
             _are.Set();
         }
 
@@ -69,12 +74,14 @@ namespace Consumer
             Task.Run(() =>
             {
                 while (true && !_cts.IsCancellationRequested)
-                {
+                {                    
                     _are.WaitOne();
-                    _timer.Stop();
+                    _timer.Stop();                    
                     while (_kafkaConsumer.MessageQueue.TryDequeue(out T result) && !_cts.IsCancellationRequested)
                     {
-                        Log.Debug($"Dequeued from Consumer {result}");
+                        _messageSink.MessageQueue.Enqueue(result);
+                        //Log.Info("Setting _messageSink.Trigger.Set()");
+                        _messageSink.Trigger.Set();
                     }
                     _timer.Start();
                 }

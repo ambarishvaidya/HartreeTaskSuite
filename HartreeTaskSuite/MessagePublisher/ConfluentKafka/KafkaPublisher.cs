@@ -62,7 +62,7 @@ namespace MessagePublisher.ConfluentKafka
             }
             else
             {
-                Log.Error($"SUCCESS PUBLISHING {deliveryReport.Value}.");
+                Log.Info($"SUCCESS PUBLISHING {deliveryReport.Value}.");
             }
         }
 
@@ -77,7 +77,7 @@ namespace MessagePublisher.ConfluentKafka
             try
             {
                 _producer.Produce(_topic, new Message<Null, string> { Value = data }, DeliveryReportHandler);
-                Log.Info($"Published {data}");
+                //Log.Info($"Published {data}");
             }
             catch (Exception exception)
             {
