@@ -21,6 +21,8 @@ namespace Consumer
         private string _groupId;
         private string _offset;
         private string _topicName;
+        private string _connectionString;
+        private string _tableName;
 
         private IMessageConsumer<Tick> _kafkaConsumer;
         private IJsonConverter<Tick> _jsonConverter;
@@ -66,8 +68,7 @@ namespace Consumer
                 _kafkaConsumer = new KafkaConsumer<Tick>(_bootstrapServer, _groupId, _offset, _topicName, _jsonConverter);
 
                 msg += $"{"":20}Creating MSSqlBulkQuery {Environment.NewLine}";
-                _messageSink = new MSSqlBulkQuery<Tick>(@"Server=tcp:hartree.database.windows.net,1433;Database=Hartree;Uid=avv2;Pwd=Password123$;Encrypt=yes;TrustServerCertificate=no;",
-                "DataDump");
+                _messageSink = new MSSqlBulkQuery<Tick>(_connectionString, _tableName, 100);
 
                 msg += $"{"":20}Creating TickConsumer {Environment.NewLine}";
                 _consumer = new TickConsumer<Tick>(_tickFrequency, _kafkaConsumer, _messageSink);
@@ -106,6 +107,12 @@ namespace Consumer
 
                 _offset = ConfigurationManager.AppSettings["offset"];
                 msg += $"{_offset,20} as TopicName{Environment.NewLine}";
+
+                _connectionString = ConfigurationManager.AppSettings["connectionstring"];
+                msg += $"{_connectionString,20} as ConnectionString{Environment.NewLine}";
+
+                _tableName = ConfigurationManager.AppSettings["tablename"];
+                msg += $"{_tableName,20} as TableName{Environment.NewLine}";
 
                 msg += "Configuration Read!";
             }

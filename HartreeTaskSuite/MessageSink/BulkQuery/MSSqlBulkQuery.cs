@@ -11,16 +11,18 @@ namespace MessageSink.BulkQuery
 
         private string _connectionString;
         private string _tableName;
+        private int _queryLimit;
 
         private ConcurrentQueue<T> _messageQueue;
         private AutoResetEvent _trigger;
         private CancellationTokenSource _cts;
         private string _sql = "INSERT INTO {0} ([key], time, value) VALUES ( '{1}', '{2}', {3});";
 
-        public MSSqlBulkQuery(string connectonstring, string tablename)
+        public MSSqlBulkQuery(string connectonstring, string tablename, int queryLimit = 10)
         {
             _connectionString = connectonstring;
             _tableName = tablename;
+            _queryLimit = queryLimit;
 
             Validate();
 
@@ -47,13 +49,13 @@ namespace MessageSink.BulkQuery
                     _trigger.WaitOne();
                     int counter = 0;
                     string longQuery = "";
-                    while (MessageQueue.TryDequeue(out T result) && counter < 10 && !_cts.IsCancellationRequested)
+                    while (MessageQueue.TryDequeue(out T result) && counter < _queryLimit && !_cts.IsCancellationRequested)
                     {
                         Tick data = result as Tick;
                         longQuery += string.Format(_sql, _tableName, data.key, data.value.time, data.value.value);
                         counter++;
                     }
-                    if(counter >= 10)                    
+                    if(counter >= _queryLimit)                    
                         _trigger.Set();
 
                     
