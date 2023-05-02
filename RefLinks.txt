@@ -1,0 +1,27 @@
+dotnet add package System.Reactive --version 6.0.0-preview.13
+
+https://www.youtube.com/watch?v=BwYFuhVhshI - Kafka Installation
+
+dotnet add package Confluent.Kafka --version 2.1.0 confluent for kafka communication
+
+https://docs.confluent.io/kafka-clients/dotnet/current/overview.html for kafka producer and consumer
+https://developer.confluent.io/get-started/dotnet/ for confluent kafka developer starting point
+
+https://stackoverflow.com/questions/70142512/net-6-0-c-sharp-new-console-template-how-to-read-cli-arguments
+
+dotnet add package Microsoft.Extensions.Configuration --version 7.0.0 - for configuration extenstion
+dotnet add package Microsoft.Extensions.Configuration.Ini --version 7.0.0
+dotnet add package Microsoft.Extensions.Configuration.Binder --version 7.0.0
+
+https://medium.com/lydtech-consulting/kafka-consumer-auto-offset-reset-d3962bad2665 
+
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.5
+dotnet add package Microsoft.EntityFrameworkCore --version 7.0.5
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.5
+
+
+https://stackoverflow.com/questions/1209181/what-represents-a-double-in-sql-server
+
+https://stackoverflow.com/questions/14270082/connection-string-using-windows-authentication for connection string 
+
+https://www.youtube.com/watch?v=FBjwYoHP0Go - excel plugin

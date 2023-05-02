@@ -1,0 +1,45 @@
+Sample Data:
+
+
+{key:"k1", value:{"time":t1, "value":0.15}}
+{key:"k1", value:{"time":t2, "value":0.134}}
+{key:"k1", value:{"time":t3, "value":0.13}}
+{key:"k1", value:{"time":t4, "value":0.1464}}
+{key:"k2", value:{"time":t1, "value":0.134}}
+{key:"k2", value:{"time":t2, "value":0.123}}
+{key:"k2", value:{"time":t3, "value":0.12366}}
+{key:"k2", value:{"time":t4, "value":0.1766}}
+{key:"k1", value:{"time":t5, "value":0.12}}
+{key:"k2", value:{"time":t5, "value":0.124}}
+{key:"k1", value:{"time":t6, "value":0.157}}
+
+
+Requirement - DataPublisher
+	C# data generator - 
+		data format specified. : {key:"k1", value:{"time":t1, "value":0.15}}				
+		value is a float between 0 and 1 using random generator
+		requires 2 messages in a second.		
+			for a given time instance (every second) there will be 2 messages created with keys (k1 and k2)
+	Publishes to Kafka			
+	
+	Configuration file with input data used by setup.
+	Timer set to tick every configured frequency calling MessageBuilder.
+	MessageBuilder 
+		is configured to create number of messages to be created.
+		is informed where to store the created messages for next processing.
+	KafkaPublisher will then pick up the messages from the store and will publish to Kafka.
+	
+	
+
+Requirement - DataConsumer
+	C# program connected to Kafka streaming
+	Convert the messages and inserts them into SQL table.
+		table columns: key, time , value
+	
+	
+
+Requirement: Excel Plugin
+	Will connect to Kafka
+	On launch/post connect will show the last data in Kafka for each key
+	The cells will display the current data in Kafka
+	
