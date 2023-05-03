@@ -1,0 +1,13 @@
+BenchmarkDotNet 0.13.5
+	For benchmarking performance
+	
+Cofluent.Kafka 2.1.1-RC1
+	For communication with Kafka	
+	
+log4net 2.0.15
+	For logging
+
+Microsoft.EntityFrameworkCore 7.0.5
+Microsoft.EntityFrameworkCore.SqlServer 7.0.5
+System.Data.SqlClient 4.8.5
+	For MS Sql communication 
