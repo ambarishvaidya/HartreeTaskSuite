@@ -26,3 +26,4 @@ https://stackoverflow.com/questions/14270082/connection-string-using-windows-aut
 
 https://www.youtube.com/watch?v=FBjwYoHP0Go - excel plugin
 https://www.youtube.com/watch?v=0-Rb0StiJgM - Understanding RTD
+https://github.com/mdvx/kafka-rtd original code.
