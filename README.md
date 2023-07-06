@@ -44,3 +44,14 @@ The HartreeTaskSuite consists of the following projects addressing the test. Det
     
 \csharp_test.txt
     The test received in email.
+
+#Excel
+
+\ExcelTask\xlsx and xlsm
+    sample test excel and excel with macro.
+    
+\ExcelTask\kafka-rtd
+    Solution rigged for our use.
+    
+\ExcelTask\kafka-rtd\register.cmd
+    To register macro plugn. This has to be run as an admin
