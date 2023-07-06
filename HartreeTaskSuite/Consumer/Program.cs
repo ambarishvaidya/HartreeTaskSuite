@@ -39,7 +39,7 @@ namespace Consumer
 
         public Program()
         {
-            Log.Info($"---------------------- Starting Producer --------------------------------");
+            Log.Info($"---------------------- Starting Consumer --------------------------------");
             ReadConfiguration();
             Initialize();
             RunConsumer();
@@ -47,10 +47,10 @@ namespace Consumer
 
         private void RunConsumer()
         {
-            Console.WriteLine("Press Ctrl + C to stop the Producer!");            
+            Console.WriteLine("Press Ctrl + C to stop the Consumer!");            
             Console.CancelKeyPress += (s, e) =>
             {
-                Log.Info("User Requested Cancel of Producer");
+                Log.Info("User Requested Cancel of Consumer");
                 _consumer.Stop();
             };           
 
